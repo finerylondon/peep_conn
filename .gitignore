@@ -1,0 +1,13 @@
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/lib/peep_conn/peep_conf.rb
+
+# rspec failure tracking
+.rspec_status
