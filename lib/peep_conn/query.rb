@@ -1,6 +1,6 @@
 module PeepConn
   class Query < Connection
-    def data(table, opts = {})
+    def retrieve(table, opts = {})
       # Retrieves data from a table, with opts
       client.call(
         :get_data, message: { getRequest: { ItemsPerPage: opts[:per_page] || 0,
