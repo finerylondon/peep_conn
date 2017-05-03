@@ -6,7 +6,7 @@ module PeepConn
         :get_data, message: { getRequest: { ItemsPerPage: opts[:per_page] || 0,
                                             PageNo: opts[:page] || 1,
                                             SearchClause: opts[:term] || '',
-                                            TemplateName: table } }
+                                            TemplateName: table_from(table) } }
       ).body
     end
   end

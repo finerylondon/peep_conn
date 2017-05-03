@@ -8,14 +8,6 @@ module PeepConn
 
     attr_accessor :config
 
-    # Link our instance with applicable PeopleVox table
-    TABLE_NAMES = {
-      'user' => 'Customers',
-      'address' => 'Customer addresses',
-      'order' => 'Sales orders',
-      'line_item' => 'Sales order items'
-    }.freeze
-
     def initialize(config)
       @config = config
 
@@ -72,7 +64,8 @@ module PeepConn
     end
 
     def table_from(type)
-      TABLE_NAMES[type]
+      return type if PeepConn::TABLE_NAMES.values.include? type
+      PeepConn::TABLE_NAMES[type.downcase]
     end
   end
 end
