@@ -1,18 +1,13 @@
 module PeepConn
   class Query < Connection
-    def data(data, term = '')
-      # Retrieves data from a table
-      # Currently works with template 'Item Types', term 'SiteReference="Lodz"'
+    def data(table, opts = {})
+      # Retrieves data from a table, with opts
       client.call(
-        :get_data, message: { getRequest: { ItemsPerPage: 0,
-                                            PageNo: 1,
-                                            SearchClause: term,
-                                            TemplateName: data[:type] } }
+        :get_data, message: { getRequest: { ItemsPerPage: opts[:per_page] || 0,
+                                            PageNo: opts[:page] || 1,
+                                            SearchClause: opts[:term] || '',
+                                            TemplateName: table } }
       ).body
-    end
-
-    def find_in_field(field, term)
-      "#{field}.Contains(\"#{term}\")"
     end
   end
 end

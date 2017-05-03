@@ -3,6 +3,9 @@ require 'active_support/core_ext/object'
 
 module PeepConn
   class Connection
+    # Initiates connection to PeopleVox. All query classes are subclass of this,
+    # inheriting :initialize to setup the config.
+
     attr_accessor :config
 
     # Link our instance with applicable PeopleVox table
@@ -14,9 +17,7 @@ module PeepConn
     }.freeze
 
     def initialize(config)
-      # TODO: move config to initializer, PEEP_CONF for Dev use
       @config = config
-      # @config ||= PeepConn::PEEP_CONF
 
       # Lists all the operations available via PeopleVox
       # puts client.operations

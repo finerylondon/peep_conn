@@ -4,12 +4,13 @@ module PeepConn
     # object's singluar class name as type, and a CSV string of the object's
     # values, i.e. { type: 'person', csv: 'Steve,31,London'}
 
-    def export(data)
-      csv = "#{template_columns_for(data[:type])}\n#{data[:csv]}"
+    def export(data, custom_headers = nil)
+      csv = "#{template_columns_for(data[:type], custom_headers)}\n#{data[:csv]}"
       save_data(csv, table_from(data[:type]))
     end
 
-    def template_columns_for(type)
+    def template_columns_for(type, custom_headers)
+      return custom_headers if custom_headers
       # Returns the columns setup for a table in PeopleVox - CSV data must
       # correspond to this
       res = client.call(:get_save_template,
@@ -22,9 +23,9 @@ module PeepConn
     end
 
     def save_data(csv_string, template)
-    client.call(:save_data, message: { saveRequest: { TemplateName: template,
-                                                      CsvData: csv_string,
-                                                      Action: 0 } })
+      client.call(:save_data, message: { saveRequest: { TemplateName: template,
+                                                        CsvData: csv_string,
+                                                        Action: 0 } })
     end
   end
 end

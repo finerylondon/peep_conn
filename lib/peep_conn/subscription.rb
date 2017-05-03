@@ -1,7 +1,7 @@
 module PeepConn
   class Subscription < Connection
-    # Needs an open ngrok channel in peoplevox.yml - these subs need clearing
-    # and re-adding whenever this changes
+    # Needs an open ngrok channel in peoplevox.yml for dev -
+    # these subs need clearing and re-adding whenever this changes
 
     EVENT_TYPES = { peoplevox_availability: 'AvailabilityChanges',
                     peoplevox_status_change: 'SalesOrderStatusChanges',
