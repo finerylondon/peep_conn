@@ -1,5 +1,5 @@
-require "bundler/setup"
-require "peep_conn"
+require 'bundler/setup'
+require 'peep_conn'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
