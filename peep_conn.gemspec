@@ -1,10 +1,7 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-
-Dir[File.join(File.dirname(__FILE__), 'lib/peep_conn/*.rb')].each do |f|
-  require f.split('/').last(2).join('/')
-end
+require 'peep_conn/version.rb'
 
 Gem::Specification.new do |spec|
   spec.name          = 'peep_conn'
@@ -26,15 +23,16 @@ Gem::Specification.new do |spec|
   end
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(test|spec|features)/}) || (f =~ /(\w+)+\.gem/).try(:>=, 0)
+    f.match(%r{^(test|spec|features)/}) || f =~ /(\w+)+\.gem$/
   end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 1.14'
-  spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rack', '~> 1.5'
+  spec.add_development_dependency 'rake', '~> 10.5'
   spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_runtime_dependency     'savon', '~> 2.0'
-  spec.add_runtime_dependency     'activesupport', '~> 4.0'
+  spec.add_dependency             'savon', '~> 2.0'
+  spec.add_dependency             'activesupport', '~> 4.0'
 end

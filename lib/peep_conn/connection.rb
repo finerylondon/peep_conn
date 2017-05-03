@@ -15,8 +15,8 @@ module PeepConn
 
     def initialize(config)
       # TODO: move config to initializer, PEEP_CONF for Dev use
-      # @config = config
-      @config ||= PeepConn::PEEP_CONF
+      @config = config
+      # @config ||= PeepConn::PEEP_CONF
 
       # Lists all the operations available via PeopleVox
       # puts client.operations
