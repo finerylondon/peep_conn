@@ -78,7 +78,7 @@ module PeepConn
       values.reduce('?') { |a, (k, v)| a.tap { |str| str << "#{k}=#{v}&" } }.chop
     end
 
-    def url_builder(path, values)
+    def url_builder(type, values)
       "#{base_url}#{config[:paths][type]}#{query_string_from(values)}"
     end
 
