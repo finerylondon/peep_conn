@@ -9,7 +9,7 @@ module PeepConn
       save_data(csv, table_from(data[:type]))
     end
 
-    def template_columns_for(type, custom_headers)
+    def template_columns_for(type, custom_headers = nil)
       return custom_headers if custom_headers
       # Returns the columns setup for a table in PeopleVox - CSV data must
       # correspond to this
