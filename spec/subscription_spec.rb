@@ -2,19 +2,7 @@ require 'spec_helper'
 
 RSpec.describe PeepConn::Subscription do
   before(:each) do
-    config =
-      { client_id: 'lfg9938',
-        username: 'steve',
-        url: 'https://wms.peoplevox.net/lfg9938/resources/integrationservicev4.asmx?wsdl',
-        callback_base: 'https://ac720e04.ngrok.io',
-        paths: {
-          peoplevox_availability: '/peoplevox/availability',
-          peoplevox_status_change: '/peoplevox/status_change',
-          peoplevox_goods_received: '/peoplevox/goods_received',
-          peoplevox_tracking_received: '/peoplevox/tracking_received',
-          peoplevox_incremental_change: '/peoplevox/incremental_change'
-        } }
-    @subscription = PeepConn::Subscription.new(config)
+    @subscription = PeepConn::Subscription.new(TestAssets::Constants::CONFIG)
   end
 
   it 'should be able to create and remove a subscription' do

@@ -7,6 +7,7 @@
 /spec/reports/
 /tmp/
 /lib/peep_conn/peep_conf.rb
+/spec/test_assets/password.rb
 
 # rspec failure tracking
 .rspec_status

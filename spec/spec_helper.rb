@@ -1,5 +1,9 @@
 require 'bundler/setup'
 require 'peep_conn'
+require 'test_assets/constants'
+
+# N.B. Tests rely on test_assets/password.rb containing a valid PASSWORD
+# constant. This is ignored by git for security.
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
