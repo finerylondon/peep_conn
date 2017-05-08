@@ -3,9 +3,8 @@ require 'active_support/core_ext/object'
 
 module PeepConn
   class Connection
-    # Initiates connection to PeopleVox. All query classes are subclass of this,
+    # Initiates connection to PeopleVox. All query classes are subclasses of this,
     # inheriting :initialize to setup the config.
-
     attr_accessor :config
 
     def initialize(config)
@@ -30,7 +29,7 @@ module PeepConn
       response = unauthorized_client.call(
         :authenticate, message: { clientId: config[:client_id],
                                   username: config[:username],
-                                  password: Base64.encode64(ENV['PV_PASS']) }
+                                  password: Base64.encode64(config[:password]) }
       ).body
       session_string = response.try(:[], :authenticate_response).try(:[], :authenticate_result).try(:[], :detail)
       session_array = session_string.try(:split, ',')
