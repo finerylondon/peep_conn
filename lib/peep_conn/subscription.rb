@@ -3,20 +3,18 @@ module PeepConn
     # Needs an open ngrok channel in passed config for dev -
     # these subs need clearing and re-adding whenever this changes
 
-    EVENT_TYPES = { peoplevox_availability: 'AvailabilityChanges',
-                    peoplevox_status_change: 'SalesOrderStatusChanges',
-                    peoplevox_goods_received: 'GoodsReceived',
-                    peoplevox_tracking_received: 'TrackingNumberReceived',
-                    peoplevox_incremental_change: 'IncrementalChanges' }.freeze
+    EVENT_TYPES = {
+      peoplevox_availability: 'AvailabilityChanges',
+      peoplevox_status_change: 'SalesOrderStatusChanges',
+      peoplevox_tracking_received: 'TrackingNumberReceived'
+    }.freeze
 
     def refresh_subscriptions
       # Will work until there are > 100 previous subscriptions
       (1..100).each { |n| unsubscribe n }
       register_availability
       register_order_status_change
-      register_goods_received
       register_tracking_received
-      register_incremental_change
     end
 
     def register_availability
@@ -32,16 +30,6 @@ module PeepConn
       register(:peoplevox_status_change, params)
     end
 
-    def register_goods_received
-      params = { id: '{GoodsInId}',
-                 references: '{Reference}',
-                 time: '{ReconciledDateTime}',
-                 quantity: '{Consignments.ConsignmentItemTypes.Quantity}',
-                 items: '{Consignments.ConsignmentItemTypes.ItemType.Name}',
-                 skus: '{Consignments.ConsignmentItemTypes.ItemType.ItemCode}' }
-      register(:peoplevox_goods_received, params)
-    end
-
     def register_tracking_received
       params = { dispatch_number: '{DespatchNumber}', # <- Note spelling
                  tracking_number: '{TrackingNumber}',
@@ -51,16 +39,6 @@ module PeepConn
                  order_number: '{Picks.SalesOrder.SalesOrderNumber}',
                  order_email: '{Picks.SalesOrder.Email}' }
       register(:peoplevox_tracking_received, params)
-    end
-
-    def register_incremental_change
-      params = { quantity: '{QuantityChanged}',
-                 updated_by: '{UpdatedBy}',
-                 updated_at: '{UpdateTimestamp}',
-                 reason: '{Reason}',
-                 product_name: '{ItemType.Name}',
-                 product_sku: '{ItemType.ItemCode}' }
-      register(:peoplevox_incremental_change, params)
     end
 
     def register(type, params)
