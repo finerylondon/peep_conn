@@ -6,6 +6,7 @@ module PeepConn
     'user' => 'Customers',
     'address' => 'Customer addresses',
     'order' => 'Sales orders',
-    'line_item' => 'Sales order items'
+    'line_item' => 'Sales order items',
+    'products' => 'Item types'
   }.freeze
 end
