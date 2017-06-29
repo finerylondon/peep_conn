@@ -45,6 +45,7 @@ module PeepConn
       sub_url = url_builder(type, params)
 
       client.call(:subscribe_event, message: { eventType: EVENT_TYPES[type],
+                                               filters: 'site == "PrimarySite"',
                                                callbackUrl: sub_url })
     end
 
