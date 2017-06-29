@@ -11,7 +11,7 @@ module PeepConn
 
     def refresh_subscriptions
       # Will work until there are > 100 previous subscriptions
-      (1..100).each { |n| unsubscribe n }
+      (50..150).each { |n| unsubscribe n }
       register_availability
       register_order_status_change
       register_tracking_received
@@ -45,7 +45,7 @@ module PeepConn
       sub_url = url_builder(type, params)
 
       client.call(:subscribe_event, message: { eventType: EVENT_TYPES[type],
-                                               filters: 'site == "PrimarySite"',
+                                               filter: 'site == "PrimarySite"',
                                                callbackUrl: sub_url })
     end
 
