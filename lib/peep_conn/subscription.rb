@@ -20,7 +20,7 @@ module PeepConn
     def register_availability
       params = { sku: '{ItemCode}',
                  quantity: '{Available}' }
-      register(:peoplevox_availability, params)
+      register_with_filters(:peoplevox_availability, params)
     end
 
     def register_order_status_change
@@ -45,8 +45,16 @@ module PeepConn
       sub_url = url_builder(type, params)
 
       client.call(:subscribe_event, message: { eventType: EVENT_TYPES[type],
-                                               filter: 'site == "PrimarySite"',
                                                callbackUrl: sub_url })
+    end
+
+    def register_with_filters(type, params)
+      sub_url = url_builder(type, params)
+
+      client.call(:subscribe_event_with_sites_filters,
+                  message: { eventType: EVENT_TYPES[type],
+                             sitesFilter: 'Site.Reference = "PrimarySite"',
+                             callbackUrl: sub_url })
     end
 
     def unsubscribe(sub_id)
