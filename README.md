@@ -1,36 +1,40 @@
-# PeepConn
+Ruby Gem: Peoplevox API
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/peep_conn`. To experiment with that code, run `bin/console` for an interactive prompt.
+The PeepConn gem provides an easy access point to the PeopleVox API. The code consists of a Connection class to build a session, from which its sub-classes inherit a constructor.
 
-TODO: Delete this and the text above, and describe your gem
+These three sub-classes handle the three main functions required of a connection.
 
-## Installation
+Export
 
-Add this line to your application's Gemfile:
+The Export class creates and updates data in the PeopleVox API.
 
-```ruby
-gem 'peep_conn'
-```
+This data is passed as an argument in hash format containing the keys :type (a PeopleVox table) and :csv (the values, matched to the corresponding PeopleVox GUI table headers).
 
-And then execute:
+The type can be supplied as a spree singular class name (i.e. ‘address’) or the PeopleVox table name (‘Customer addresses‘). These are mapped in `PeepConn::Constants.TABLE_NAMES`.
 
-    $ bundle
+A second argument can be supplied to :export, with custom headers in CSV format replacing the defaults. The defaults can be retrieved by providing a table name to the `:template_columns_for(type)` method.
 
-Or install it yourself as:
+Example:
 
-    $ gem install peep_conn
+PeepConn::Export.new(config).export({ type: 'user', csv: 'steve, steve@finerylondon.com' }, 'name, email')
 
-## Usage
+Query
 
-TODO: Write usage instructions here
+The Query class is for retrieving data from PeopleVox. The :retrieve method takes a table name, returning all its data. An options hash can be supplied to refine this, with keys for :per_page, :page and :term. The latter takes Microsoft LINQ style expressions.
 
-## Development
+Example:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+PeepConn::Query.new(config).retrieve('user', term: 'name.Contains(“Neil”)')
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Subscription
 
-## Contributing
+The Subscription class sets up PeopleVox callbacks for the following events:
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/peep_conn.
+Stock availability changes
+Order status changes
+Tracking received
+The subscriptions need refreshing whenever the base url changes (i.e. a new ngrok channel in dev), using the :refresh_subscriptions method. This method iterates through 1 – 100 unsubscribing existing subs by ID, before creating a new callback for each event. There’s no way to retrieve or query callbacks, and the gem will need updating once over 100 subscriptions have existed.
 
+Config
+
+The config value passed to the constructor of all classes contains auth info for the PeopleVox connection. This is currently a hash containing values for :client_id, :username, :password and :url (their endpoint).
