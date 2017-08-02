@@ -1,5 +1,16 @@
 module PeepConn
   class Report < Connection
+    def retrieve(template, opts = {})
+      client.call(
+        :get_report_data,
+        message: { getReportRequest: {
+          TemplateName: template,
+          PageNo: opts[:page] || 1,
+          ItemsPerPage: opts[:per_page] || 0
+        } }
+      ).body
+    end
+
     def item_inventory_summary(opts = {})
       client.call(
         :get_report_data,
