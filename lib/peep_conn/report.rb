@@ -29,7 +29,7 @@ module PeepConn
       client.call(
         :get_report_data,
         message: { getReportRequest: {
-          TemplateName: 'Outstanding sales orders',
+          TemplateName: 'Sales orders allocated',
           PageNo: opts[:page] || 1,
           ItemsPerPage: opts[:per_page] || 0,
           # Currently pulling all data, as columns / filters aren't working
