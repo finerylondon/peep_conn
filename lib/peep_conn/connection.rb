@@ -18,6 +18,7 @@ module PeepConn
       @client ||= Savon.client(savon_globals(true, :client_id, :session_id))
       @client.http.send_timeout    = 300
       @client.http.receive_timeout = 300
+      puts @client.operations.inspect
       @client
     end
 
