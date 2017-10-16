@@ -49,8 +49,8 @@ module PeepConn
       defaults = { wsdl: config[:url],
                    convert_request_keys_to: :none,
                    filters: filters,
-                   read_timeout: 300,
-                   open_timeout: 300,
+                   read_timeout: 1000,
+                   open_timeout: 1000,
                    pretty_print_xml: true,
                    log: true,
                    logger: Logger.new(STDOUT) }
