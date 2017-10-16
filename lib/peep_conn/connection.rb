@@ -16,10 +16,6 @@ module PeepConn
     def client
       retrieve_session
       @client ||= Savon.client(savon_globals(true, :client_id, :session_id))
-      @client.http.send_timeout    = 300
-      @client.http.receive_timeout = 300
-      puts @client.operations.inspect
-      @client
     end
 
     def unauthorized_client
@@ -53,6 +49,8 @@ module PeepConn
       defaults = { wsdl: config[:url],
                    convert_request_keys_to: :none,
                    filters: filters,
+                   read_timeout: 300,
+                   open_timeout: 300,
                    pretty_print_xml: true,
                    log: true,
                    logger: Logger.new(STDOUT) }
