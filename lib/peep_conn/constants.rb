@@ -1,5 +1,5 @@
 module PeepConn
-  VERSION = '0.0.2'.freeze
+  VERSION = '0.0.3'.freeze
 
   # Link our instance with applicable PeopleVox table
   # Update: additional tables added not linked to instances, but following
