@@ -6,7 +6,8 @@ module PeepConn
         message: { getReportRequest: {
           TemplateName: template,
           PageNo: opts[:page] || 1,
-          ItemsPerPage: opts[:per_page] || 0
+          ItemsPerPage: opts[:per_page] || 0,
+          SearchClause: opts[:search_clause] || ''
         } }
       ).body
     end
