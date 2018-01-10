@@ -11,7 +11,7 @@ module PeepConn
 
     def refresh_subscriptions
       # Will work until there are > 100 previous subscriptions
-      (50..150).each { |n| unsubscribe n }
+      unsubscribe
       register_availability
       register_order_status_change
       register_tracking_received
@@ -21,6 +21,12 @@ module PeepConn
       params = { sku: '{ItemCode}',
                  quantity: '{Available}' }
       register_with_filters(:peoplevox_availability, params)
+    end
+
+    def register_availability_wholesale
+      params = { sku: '{ItemCode}',
+                 quantity: '{Available}' }
+      register_with_filters_wholesale(:peoplevox_availability, params)
     end
 
     def register_order_status_change
@@ -57,8 +63,19 @@ module PeepConn
                              callbackUrl: sub_url })
     end
 
-    def unsubscribe(sub_id)
-      client.call(:unsubscribe_event, message: { subscriptionId: sub_id })
+    def register_with_filters_wholesale(type, params)
+      sub_url = url_builder(type, params)
+
+      client.call(:subscribe_event_with_sites_filters,
+                  message: { eventType: EVENT_TYPES[type],
+                             sitesFilter: 'Site.Reference = "Wholesale"',
+                             callbackUrl: sub_url })
+    end
+
+    def unsubscribe
+      (50..250).each { |n|
+        client.call(:unsubscribe_event, message: { subscriptionId: n })
+      }
     end
 
     def query_string_from(values)
